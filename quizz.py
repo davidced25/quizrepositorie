@@ -58,7 +58,7 @@ class habitaciones:
         print("\nHabitaciones disponibles:")
         while actual:
             if actual.estado == "Libre":
-                print(f"Habitación {actual.num} esta libre")
+                print(f"Habitacion {actual.num} esta libre")
             actual = actual.siguiente
   
     def mostrar_habt_ocup(self):
@@ -66,7 +66,7 @@ class habitaciones:
         print("\nHabitaciones ocupadas:")
         while actual:
             if actual.estado == "Ocupado":
-                print(f"Hab: {actual.num} | Cédula: {actual.cedula} | Nombre: {actual.nombre} | Llegada: {actual.hora}")
+                print(f"Hab: {actual.num} | Cedula: {actual.cedula} | Nombre: {actual.nombre} | Llegada: {actual.hora}")
             actual = actual.siguiente
 
 
@@ -80,3 +80,4 @@ class habitaciones:
 #Para cualquiera de las consultas entregar toda la información asociada al huésped.
 
 #Consulta de habitaciones: (1) Lista de habitaciones disponibles y (2) Lista de habitaciones ocupadas.
+
