@@ -5,7 +5,7 @@
 # Clase Nodo
 class huesped:
     def __init__(self):
-        self.num = int(input("Ingrese número de habitación: "))
+        self.num = int(input("Ingrese numero de habitación: "))
         self.estado = "Libre"
         self.cedula = None
         self.hora = None
@@ -18,7 +18,7 @@ class habitaciones:
         self.cabeza = None
         
     def agg_habt(self):
-        nuevo_nodo = huesped()
+        nuevo_nodo = huesped(num)
         if self.cabeza is None:
             self.cabeza = nuevo_nodo
         else:
@@ -40,6 +40,7 @@ class habitaciones:
                 return
             actual = actual.siguiente
         print("No hay habitaciones disponibles.")
+        return
 
     def eliminar_habt(self, cedula):
         actual = self.cabeza
@@ -84,6 +85,7 @@ class habitaciones:
 #Para cualquiera de las consultas entregar toda la información asociada al huésped.
 
 #Consulta de habitaciones: (1) Lista de habitaciones disponibles y (2) Lista de habitaciones ocupadas.
+
 
 
 
