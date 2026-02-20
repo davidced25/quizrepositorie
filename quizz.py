@@ -36,7 +36,7 @@ class habitaciones:
                 actual.nombre = input("Ingrese nombre: ")
                 actual.hora = input("Ingrese hora de llegada:")
                 actual.estado = "Ocupado"
-                print("Habitacion {actual.num} asignada.")
+                print("Habitacion asignada: ", actual.num)
                 return
             actual = actual.siguiente
         print("No hay habitaciones disponibles.")
@@ -84,5 +84,6 @@ class habitaciones:
 #Para cualquiera de las consultas entregar toda la información asociada al huésped.
 
 #Consulta de habitaciones: (1) Lista de habitaciones disponibles y (2) Lista de habitaciones ocupadas.
+
 
 
