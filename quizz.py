@@ -28,15 +28,15 @@ class habitaciones:
             actual.siguiente = nuevo_nodo
 
     def asignar_habt(self):
-        cedula_buscada = input("Ingrese cédula del cliente: ")
+        cedula_buscada = input("Ingrese cedula del cliente: ")
         actual = self.cabeza
         while actual:
             if actual.estado == "Libre":
                 actual.cedula = cedula_buscada
                 actual.nombre = input("Ingrese nombre: ")
-                actual.hora = input("Ingrese hora de llegada: ")
+                actual.hora = input("Ingrese hora de llegada:")
                 actual.estado = "Ocupado"
-                print(f"Habitacion {actual.num} asignada.")
+                print("Habitacion {actual.num} asignada.")
                 return
             actual = actual.siguiente
         print("No hay habitaciones disponibles.")
@@ -55,19 +55,23 @@ class habitaciones:
 
     def mostrar_habt_disp(self):
         actual = self.cabeza
-        print("\nHabitaciones disponibles:")
+        print("Habitaciones disponibles: ")
         while actual:
             if actual.estado == "Libre":
-                print(f"Habitacion {actual.num} esta libre")
+                print("Habitacion esta libre", actual.num)
             actual = actual.siguiente
   
     def mostrar_habt_ocup(self):
         actual = self.cabeza
-        print("\nHabitaciones ocupadas:")
+        print("Habitaciones ocupadas: ")
         while actual:
             if actual.estado == "Ocupado":
-                print(f"Hab: {actual.num} | Cedula: {actual.cedula} | Nombre: {actual.nombre} | Llegada: {actual.hora}")
+                print("Habitacion: ", actual.num, "Cedula: " ,actual.cedula,  "Nombre: ", actual.nombre, "Llegada: " ,actual.hora)
             actual = actual.siguiente
+    # control director 
+    def buscar_cedula(self,cedula):
+        actual = sefl.cabeza
+        print("huéspedes del hotel")
 
 
 #Igualmente cuando un huésped se retira del hotel se actualiza la disponibilidad de las habitaciones, 
@@ -80,4 +84,5 @@ class habitaciones:
 #Para cualquiera de las consultas entregar toda la información asociada al huésped.
 
 #Consulta de habitaciones: (1) Lista de habitaciones disponibles y (2) Lista de habitaciones ocupadas.
+
 
