@@ -1,150 +1,203 @@
 #El director de un hotel desea implementar una sistema de administración para saber la disponibilidad y asignación de habitaciones. 
 # Para asignar, registra el número de cédula y el nombre de cada cliente a medida que llega al hotel, 
 # junto con el número de habitación que ocupa (el antiguo libro de entradas).
-
-# Clase Nodo
-# Clase Nodo (Habitacion)
-class Huesped:
-    def __init__(self, num): 
-        self.num = num
-        self.estado = "Libre"
-        self.cedula = None
-        self.nombre = None
-        self.hora = None
-        self.siguiente = None
+# Clase que representa cada habitacion como nodo de una lista enlazada
+class Habitacion:
+    def __init__(self, num):
+        self.num = num                  # Numero de la habitacion
+        self.estado = "Libre"           # Estado actual
+        self.ced = None                 # Cedula del huesped
+        self.nom = None                 # Nombre del huesped
+        self.hr = None                  # Hora de llegada
+        self.siguiente = None           # Apuntar al siguiente nodo
 
 
-# Clase Lista Enlazada
+# Clase principal del hotel
 class Hotel:
-    def __init__(self):  
-        self.cabeza = None
+    def __init__(self):
+        self.cabeza = None              
+        self.ent = []                   # Lista entradas
+        self.sal = []                   # Lista Salidas
 
-    # Crear habitaciones
+    # Crea y agrega habitacion al final de la lista
     def agregar_habitacion(self, num):
-        nuevo = Huesped(num)
- # Agregar al final de la lista
+        nueva = Habitacion(num)
+
         if self.cabeza is None:
-            self.cabeza = nuevo
+            self.cabeza = nueva
         else:
             actual = self.cabeza
             while actual.siguiente:
-            # Recorrer hasta el final de la lista
                 actual = actual.siguiente
-            actual.siguiente = nuevo
+            actual.siguiente = nueva
 
-    # Asignar habitacion
+    # Asignar una habitacion libre
     def asignar_habitacion(self):
-        cedula = input("Ingrese cedula: ")
-        nombre = input("Ingrese nombre: ")
-        hora = input("Ingrese hora de llegada: ")
+        ced = input("Ingrese cedula: ")
+        nom = input("Ingrese nombre: ")
+        hr = input("Ingrese hora de llegada: ")
 
         actual = self.cabeza
-        # Recorrer la lista para encontrar la primera habitacion libre y asignarla al huesped
+
         while actual:
             if actual.estado == "Libre":
+
                 actual.estado = "Ocupado"
-                actual.cedula = cedula
-                actual.nombre = nombre
-                actual.hora = hora
+                actual.ced = ced
+                actual.nom = nom
+                actual.hr = hr
+
+                # guandamos la informacion en entradas 
+                self.ent.append({
+                    "Cedula": ced,
+                    "Nombre": nom,
+                    "Habitacion": actual.num,
+                    "Hora": hr
+                })
+
                 print("Habitacion asignada:", actual.num)
                 return
+
             actual = actual.siguiente
 
         print("No hay habitaciones disponibles.")
 
-    # Liberar habitacion por cedula
+    # quita cedula y nombre de la habitacion y tambien cambia el estado a libre
     def liberar_habitacion(self):
-        cedula = input("Ingrese cedula del huesped que sale: ")
-
+        ced = input("Ingrese cedula del huesped que sale: ")
         actual = self.cabeza
-        # Recorrer la lista para encontrar la habitacion ocupada por esa cedula
+
         while actual:
-            if actual.cedula == cedula:
+            if actual.ced == ced:
+
+                # Guarada informacion en salidas 
+                self.sal.append({
+                    "Cedula": actual.ced,
+                    "Nombre": actual.nom,
+                    "Habitacion": actual.num,
+                    "Hora de entrada": actual.hr
+                })
+
                 actual.estado = "Libre"
-                actual.cedula = None
-                actual.nombre = None
-                actual.hora = None
+                actual.ced = None
+                actual.nom = None
+                actual.hr = None
+
                 print("Habitacion liberada correctamente.")
                 return
+
             actual = actual.siguiente
 
         print("Cedula no encontrada.")
 
-    # Mostrar habitaciones libres
-    def mostrar_libres(self):
-        actual = self.cabeza
-        print("Habitaciones libres:")
-        # Recorrer la lista y mostrar solo las habitaciones que estan libres
-        while actual:
-            if actual.estado == "Libre":
-                print("Habitacion", actual.num)
-            actual = actual.siguiente
-
-    # Mostrar habitaciones ocupadas
-    def mostrar_ocupadas(self):
-        actual = self.cabeza
-        print("Habitaciones ocupadas:")
-        while actual:
-            if actual.estado == "Ocupado":
-                print("Habitacion:", actual.num,
-                      "Cedula:", actual.cedula,
-                      "Nombre:", actual.nombre,
-                      "Llegada:", actual.hora)
-            actual = actual.siguiente
-
-    # Buscar huesped por cedula
+    # Buscar por cedula
     def buscar_cedula(self):
-        cedula = input("Ingrese cedula a buscar: ")
+        ced = input("Ingrese cedula a buscar: ")
         actual = self.cabeza
 
         while actual:
-            if actual.cedula == cedula:
-                print("Huesped encontrado:")
+            if actual.ced == ced:
                 print("Habitacion:", actual.num)
-                print("Nombre:", actual.nombre)
-                print("Hora llegada:", actual.hora)
+                print("Nombre:", actual.nom)
+                print("Hora de llegada:", actual.hr)
                 return
             actual = actual.siguiente
 
-        print("No existe un huesped con esa cedula.")
+        print("No existe un huesped activo con esa cedula.")
+
+    # Para mostrar habitaciones libres
+    def mostrar_libres(self):
+        print("Habitaciones libres:")
+        actual = self.cabeza
+        hay = False
+
+        while actual:
+            if actual.estado == "Libre":
+                print("Habitacion", actual.num)
+                hay = True
+            actual = actual.siguiente
+
+        if not hay:
+            print("No hay habitaciones libres.")
+
+    # Para mostrar habitaciones ocupadas
+    def mostrar_ocupadas(self):
+        print("Habitaciones ocupadas:")
+        actual = self.cabeza
+        hay = False
+
+        while actual:
+            if actual.estado == "Ocupado":
+                print("Habitacion:", actual.num,
+                      "Cedula:", actual.ced,
+                      "Nombre:", actual.nom,
+                      "Hora:", actual.hr)
+                hay = True
+            actual = actual.siguiente
+
+        if not hay:
+            print("No hay habitaciones ocupadas.")
+
+    # Mostrar las entradas registradas
+    def mostrar_entradas(self):
+        print("Entradas:")
+        if len(self.ent) == 0:
+            print("No hay registros.")
+        else:
+            for r in self.ent:
+                print(r)
+
+    # Mostrar las salidas registradas
+    def mostrar_salidas(self):
+        print("Salidas:")
+        if len(self.sal) == 0:
+            print("No hay registros.")
+        else:
+            for r in self.sal:
+                print(r)
 
 
-# PROGRAMA PRINCIPAL
-
+# Menu principal
 hotel = Hotel()
 
-# Crear habitaciones
-cantidad = int(input("Ingrese numero de habitaciones del hotel: "))
-for i in range(1, cantidad + 1):
-    hotel.agregar_habitacion(i)
+cant = int(input("Ingrese numero de habitaciones del hotel: "))
 
-# Menu
+for i in range(1, cant + 1):
+    hotel.agregar_habitacion(i)
+Nombre = input("Ingrese Nombre del hotel: ")
 while True:
-    print("\n------ MENU HOTEL ------")
+    print("\nBienvenidos al hotel", Nombre)
     print("1. Asignar habitacion")
     print("2. Liberar habitacion")
     print("3. Mostrar habitaciones libres")
     print("4. Mostrar habitaciones ocupadas")
     print("5. Buscar huesped por cedula")
-    print("6. Salir")
+    print("6. Entradas")
+    print("7. Salidas")
+    print("8. Salir")
 
-    opcion = int(input("Seleccione una opcion: ")) 
-#menu de opciones
-    if opcion == 1:   
+    opc = int(input("Seleccione una opcion: "))
+
+    if opc == 1:
         hotel.asignar_habitacion()
-    elif opcion == 2:
+    elif opc == 2:
         hotel.liberar_habitacion()
-    elif opcion == 3:
+    elif opc == 3:
         hotel.mostrar_libres()
-    elif opcion == 4:
+    elif opc == 4:
         hotel.mostrar_ocupadas()
-    elif opcion == 5:
+    elif opc == 5:
         hotel.buscar_cedula()
-    elif opcion == 6:
-        print("Saliendo del sistema...")
+    elif opc == 6:
+        hotel.mostrar_entradas()
+    elif opc == 7:
+        hotel.mostrar_salidas()
+    elif opc == 8:
+        print("Saliendo.... Adios")
         break
     else:
-        print("Opcion invalida.")
+        print("Opcion no valida.")
+# este codigo fue creado por David Cediel con un poco de ayuda de IA para ciertas parte 87/100
 
 
 #Igualmente cuando un huésped se retira del hotel se actualiza la disponibilidad de las habitaciones, 
@@ -157,6 +210,7 @@ while True:
 #Para cualquiera de las consultas entregar toda la información asociada al huésped.
 
 #Consulta de habitaciones: (1) Lista de habitaciones disponibles y (2) Lista de habitaciones ocupadas.
+
 
 
 
